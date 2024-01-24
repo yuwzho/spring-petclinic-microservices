@@ -18,39 +18,38 @@ if [[ -z "$ASA_SERVICE_NAME" ]]; then
   exit 1
 fi
 
-base_url="https://github.com/Azure-Samples/spring-petclinic-microservices/releases/download"
-auth_header="no-auth"
-version="3.0.1"
-declare -a artifact_arr=("admin-server" "customers-service" "vets-service" "visits-service" "api-gateway")
+declare -A app_module_path_map
+declare -a artifact_arr=("customers-service" "vets-service" "visits-service")
+app_module_path_map[${artifact_arr[0]}]="spring-petclinic-customers-service"
+app_module_path_map[${artifact_arr[1]}]="spring-petclinic-vets-service"
+app_module_path_map[${artifact_arr[2]}]="spring-petclinic-visits-service"
 
 az extension add --name spring --upgrade
+git clone https://github.com/Azure-Samples/spring-petclinic-microservices.git
+cd spring-petclinic-microservices
 
-deployJar() {
-  jar_file_name="$1-$version.jar"
-  source_url="$base_url/v$version/$jar_file_name"
-  # Download binary
-  echo "Downloading binary from $source_url to $jar_file_name"
-  if [ "$auth_header" == "no-auth" ]; then
-      curl -L "$source_url" -o $jar_file_name
-  else
-      curl -H "Authorization: $auth_header" "$source_url" -o $jar_file_name
-  fi
-
+deployJavaCode() {
   config_file_pattern="application,$1"
-  az spring application-configuration-service bind --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --app $1
-  az spring service-registry bind --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --app $1
-  az spring app deploy --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --name $1 --artifact-path $jar_file_name --config-file-pattern $config_file_pattern
+  az spring application-configuration-service bind --subscription $SUBSCRIPTION_ID --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --app $1
+  az spring service-registry bind --subscription $SUBSCRIPTION_ID --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --app $1
+  az spring app deploy --subscription $SUBSCRIPTION_ID --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --name $1 --source-path --config-file-pattern $config_file_pattern --build-env BP_MAVEN_BUILT_MODULE=${app_module_path_map[$1]} BP_JVM_VERSION=17
+}
+
+deployFrontendCode() {
+  az spring app deploy --subscription $SUBSCRIPTION_ID --resource-group $RESOURCE_GROUP --service $ASA_SERVICE_NAME --name frontend --build-env BP_WEB_SERVER=nginx --source-path ./spring-petclinic-frontend
 }
 
 for item in "${artifact_arr[@]}"
 do
-  deployJar $item &
+  deployJavaCode "$item" &
 done
+
+deployFrontendCode &
 
 jobs_count=$(jobs -p | wc -l)
 
 # Loop until all jobs are done
-while [ $jobs_count -gt 0 ]; do
+while [ "$jobs_count" -gt 0 ]; do
   wait -n
   exit_status=$?
 
@@ -62,7 +61,7 @@ while [ $jobs_count -gt 0 ]; do
   fi
 done
 
-echo "Deployed to Azure Spring Cloud successfully."
+echo "Deployed to Azure Spring Apps successfully."
 
 # Delete uami generated before exiting the script
 az identity delete --ids ${AZ_SCRIPTS_USER_ASSIGNED_IDENTITY}
