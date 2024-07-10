@@ -1,0 +1,13 @@
+---
+applications:
+- name: spring-petclinic-customers-service
+  random-route: true
+  memory: 1G
+  path: target/customers-service-3.0.1.jar
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 17.+ }}'
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
+    # Required to override SERVER_PORT env var set by buildpack and load
+    # default Spring application on port 8081
+    SPRING_APPLICATION_JSON: '{"server.port":8080}'
+    SPRING_PROFILES_ACTIVE: default

@@ -36,6 +36,8 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.boot.actuate.autoconfigure.security.reactive.ReactiveManagementWebSecurityAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.reactive.ReactiveSecurityAutoConfiguration;
 
 import java.time.Duration;
 
@@ -44,7 +46,7 @@ import java.time.Duration;
  * @author Maciej Szarlinski
  */
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude={ReactiveManagementWebSecurityAutoConfiguration.class,ReactiveSecurityAutoConfiguration.class})
 public class ApiGatewayApplication {
 
     public static void main(String[] args) {
