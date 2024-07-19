@@ -6,7 +6,6 @@
 ```cmd
 cf login -a https://api.sys.xiading-tanzu-tas.azdmss-test.net
 ```
-
 > Ask for the credential
 
 ## Select org and space
@@ -17,6 +16,8 @@ This command set to the asa org  and petclinic space
 ```cmd
 cf target -s petclinic -o asa
 ```
+
+> The manifest under each sub module is targeting for space `enterprise`, use `cf target -s enterprise -o asa` instead.
 
 ## Pre app deployment
 This section will prepare the services used by the app
