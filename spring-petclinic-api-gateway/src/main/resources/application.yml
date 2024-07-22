@@ -19,12 +19,11 @@ spring:
           filters:
             - StripPrefix=2
         - id: customers-service
-          uri: lb://customers-service:8080
+          uri: lb://customers-service
           predicates:
             - Path=/api/customer/**
           filters:
             - StripPrefix=2
-debug: true    
 ---
 spring:
   config:
