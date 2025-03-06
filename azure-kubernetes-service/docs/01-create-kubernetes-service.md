@@ -53,16 +53,15 @@ az acr create -g ${RESOURCE_GROUP} -n ${ACR_NAME} --sku Premium
 
 ### 5. Create AKS
 1. Enable `EncryptionAtHost`, may take 10+ minutes to finish
-```bash
-az feature register --namespace Microsoft.Compute --name EncryptionAtHost
-```
-
-Run `az feature register --namespace Microsoft.Compute --name EncryptionAtHost` to wait for its state to be `Registered`.
+    ```bash
+    az feature register --namespace Microsoft.Compute --name EncryptionAtHost
+    ```
+   Run `az feature register --namespace Microsoft.Compute --name EncryptionAtHost` to wait for its state to be `Registered`.
 
 1. Create workspace
-```
-az monitor log-analytics workspace create --resource-group ${RESOURCE_GROUP} --workspace-name ${WORKSPACE_NAME}
-```
+    ```
+    az monitor log-analytics workspace create --resource-group ${RESOURCE_GROUP} --workspace-name ${WORKSPACE_NAME}
+    ```
 
 1. Create AKS. 
    Below commands guide you to create the AKS. For more information on the features enabled in the AKS cluster, refer to the following documentation:
