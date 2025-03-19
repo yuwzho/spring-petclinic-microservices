@@ -126,7 +126,8 @@ After completing this guide, you will have:
    ```
 
 1. **Deploy other applications**
-Repeat the above steps for the following applications:
+
+    Repeat the above steps for the following applications:
 
    - `spring-petclinic-customers-service`
    - `spring-petclinic-vets-service`
@@ -134,6 +135,7 @@ Repeat the above steps for the following applications:
 
 
 1. **Verify the whole project**
+
     Open your browser and navigate to the address you configured for `<spring-petclinic-api-gateway-host>` to check the application.
 
 ## Next Steps
