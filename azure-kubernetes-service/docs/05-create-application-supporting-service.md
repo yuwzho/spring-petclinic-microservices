@@ -34,7 +34,7 @@ echo "MYSQL_NAME=${MYSQL_NAME}"
 echo "MYSQL_IDENTITY=${MYSQL_IDENTITY}"
 ```
 
-### 2. Create MySQL
+### 2. Create MySQL and Configure the Authentication
 
 1. Create MySQL Flexible server and enable the access from Kubernetes, replace `<admin-password>` with your password(Minimum 8 characters and maximum 128 characters. Password must contain characters from three of the following categories: English uppercase letters, English lowercase letters, numbers, and non-alphanumeric characters.):
     ```
