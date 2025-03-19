@@ -125,6 +125,11 @@ az acr create -g ${RESOURCE_GROUP} -n ${ACR_NAME} --sku Premium
         --os-sku Mariner \
         --os-type Linux \
         --node-count 1
+    ```
+
+    > Note: This command also needs some time to finish updating.
+
+    ```
     az aks nodepool add \
         --cluster-name ${AKS_NAME} \
         -g ${RESOURCE_GROUP} \

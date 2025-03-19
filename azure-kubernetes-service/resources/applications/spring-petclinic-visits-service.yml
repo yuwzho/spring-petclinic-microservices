@@ -26,8 +26,23 @@ items:
       spec:
         containers:
         - env:
+          - name: JAVA_TOOL_OPTIONS
+            value: -Deureka.client.service-url.defaultZone=$(SPRING_EUREKA_SERVICE_URL)
+              -Dfile.encoding=UTF8 -DCONFIG_SERVER_URL=$(SPRING_CLOUD_CONFIG_URI) -Dspring.cloud.config.uri=$(SPRING_CLOUD_CONFIG_URI)
+              -Dspring.cloud.config.fail-fast=$(SPRING_CLOUD_CONFIG_FAILFAST) -Dspring.config.import=optional:configserver:$(SPRING_CLOUD_CONFIG_URI)/
+          - name: SERVER_PORT
+            value: '8080'
           - name: APPLICATIONINSIGHTS_ROLE_NAME
             value: spring-petclinic-visits-service
+          envFrom:
+            - secretRef:
+                name: <service-connection-secrets>
+            - configMapRef:
+                name: config-server-config
+                optional: true
+            - configMapRef:
+                name: eureka-server-config
+                optional: true
           image: <acr-name>.azurecr.io/spring-petclinic-visits-service:<visits-service-app-image-tag>
           name: spring-petclinic-visits-service
 - apiVersion: v1
@@ -38,3 +53,8 @@ items:
   spec:
     selector:
       app: spring-petclinic-visits-service
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 8080
+    type: ClusterIP

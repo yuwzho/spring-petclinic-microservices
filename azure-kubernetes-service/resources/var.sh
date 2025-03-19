@@ -6,6 +6,8 @@ ACR_NAME="<container-registry-name-character-only>"
 AKS_NAME="${RESOURCE_GROUP}-k8s"
 KEYVAULT_NAME="${RESOURCE_GROUP}-kv"
 WORKSPACE_NAME="${RESOURCE_GROUP}-workspace"
+MYSQL_IDENTITY="${RESOURCE_GROUP}-mysql-identity"
+IDENTITY_NAME="${RESOURCE_GROUP}-identity"
 
 # Supporting services
 MYSQL_NAME="${RESOURCE_GROUP}-mysql"

@@ -31,13 +31,14 @@ After completing this guide, you will have:
 
    echo ACR_NAME=${ACR_NAME}
    echo API_GATEWAY_APP_IMAGE_TAG=${API_GATEWAY_APP_IMAGE_TAG}
-   echo DATABASE_NAME=${DATABASE_NAME}
+   echo MYSQL_DATABASE=${MYSQL_DATABASE}
    echo IDENTITY_NAME=${IDENTITY_NAME}
+   echo MYSQL_IDENTITY_ID=${MYSQL_IDENTITY_ID}
    ```
 
 1. **Create managed identity**
 
-   Create the managed identity for the catalog service. This managed identity will be used to connect to MySQL.
+   Create the managed identity for the gateway service. This managed identity will be used to connect to MySQL.
    ```bash
    az identity create -n ${IDENTITY_NAME} -g ${RESOURCE_GROUP} --location ${LOCATION} --subscription ${SUBSCRIPTION}
    ```
@@ -48,16 +49,16 @@ After completing this guide, you will have:
    ```bash
    az extension add --name serviceconnector-passwordless --upgrade
    AKS_ID=$(az aks show --resource-group ${RESOURCE_GROUP} --name ${AKS_NAME} --query id -o tsv)
-   DATABASE_ID=$(az mysql flexible-server db show --server ${MYSQL_NAME} --database-name ${DATABASE_NAME} -g ${RESOURCE_GROUP} --query id -o tsv)
+   DATABASE_ID=$(az mysql flexible-server db show --server ${MYSQL_NAME} --database-name ${MYSQL_DATABASE} -g ${RESOURCE_GROUP} --query id -o tsv)
    IDENTITY_ID=$(az identity show -n ${IDENTITY_NAME} -g ${RESOURCE_GROUP} --query id -o tsv)
-   az aks connection create mysql-flexible --connection catalog_acme_mysql --source-id ${AKS_ID} --target-id ${DATABASE_ID} --client-type springboot --workload-identity ${IDENTITY_ID}
+   az aks connection create mysql-flexible --connection aks_mysql --source-id ${AKS_ID} --target-id ${DATABASE_ID} --workload-identity ${IDENTITY_ID} mysql-identity-id=${MYSQL_IDENTITY_ID}
    ```
 
 1. **Get the service account information**
 
    Retrieve the service account information created by the service connection:
    ```bash
-   az aks connection show --connection catalog_acme_mysql -g ${RESOURCE_GROUP} -n ${AKS_NAME} --query kubernetesResourceName
+   az aks connection show --connection aks_mysql -g ${RESOURCE_GROUP} -n ${AKS_NAME} --query kubernetesResourceName
    ```
 
    Note there should be 2 resources created:
@@ -66,7 +67,7 @@ After completing this guide, you will have:
 
 1. **Edit the resource file**
 
-   Locate the `resources/applications/acme-catalog.yml` file and update the following placeholders:
+   Locate the `resources/applications/spring-petclinic-api-gateway.yml` file and update the following placeholders:
 
    - **`<acr-name>`**: Update to the name of your Azure Container Registry, should be the value of `${ACR_NAME}`.
    - **`<api-gateway-app-image-tag>`**: Update to the tag of your API Gateway application image, should be the value of `${API_GATEWAY_APP_IMAGE_TAG}`.
