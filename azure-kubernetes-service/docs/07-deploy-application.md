@@ -128,9 +128,9 @@ After completing this guide, you will have:
 1. **Deploy other applications**
 Repeat the above steps for the following applications:
 
-- `spring-petclinic-customers-service`
-- `spring-petclinic-vets-service`
-- `spring-petclinic-visits-service`
+   - `spring-petclinic-customers-service`
+   - `spring-petclinic-vets-service`
+   - `spring-petclinic-visits-service`
 
 
 1. **Verify the whole project**

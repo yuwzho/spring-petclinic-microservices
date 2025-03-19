@@ -37,7 +37,7 @@ echo "WORKSPACE_NAME=${WORKSPACE_NAME}"
 ```
 
 ### 3. Create Resource Group
-1. Create a resource group to host all the Azure resources.
+Create a resource group to host all the Azure resources.
 ```bash
 az group create -n ${RESOURCE_GROUP} -l eastus2
 ```
