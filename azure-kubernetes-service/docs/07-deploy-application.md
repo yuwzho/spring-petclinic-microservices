@@ -134,7 +134,7 @@ Repeat the above steps for the following applications:
 
 
 1. **Verify the whole project**
-Open your browser and navigate to the address you configured for `<spring-petclinic-api-gateway-host>` to check the application.
+    Open your browser and navigate to the address you configured for `<spring-petclinic-api-gateway-host>` to check the application.
 
 ## Next Steps
 
