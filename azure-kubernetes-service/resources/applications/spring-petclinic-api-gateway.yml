@@ -60,6 +60,8 @@ items:
           - configMapRef:
               name: eureka-server-config
               optional: true
+          - configMapRef:
+              name: api-gateway
           image: <acr-name>.azurecr.io/spring-petclinic-api-gateway:<api-gateway-app-image-tag>
           imagePullPolicy: Always
           livenessProbe:

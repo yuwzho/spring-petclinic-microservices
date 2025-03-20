@@ -42,10 +42,10 @@ echo "API_GATEWAY_APP_IMAGE_TAG=${API_GATEWAY_APP_IMAGE_TAG}"
 1. Build the docker image by using Azure Container Registry Build. Each line may cost around 1 minute.
 
    ```bash
-    az acr build -t spring-petclinic-vets-service:${VETS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-vets-service/target --build-arg ARTIFACT_NAME=vets-service-3.4.1 --build-arg  EXPOSED_PORT=8080
-    az acr build -t spring-petclinic-visits-service:${VISITS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-visits-service/target --build-arg ARTIFACT_NAME=visits-service-3.4.1 --build-arg  EXPOSED_PORT=8080
-    az acr build -t spring-petclinic-customers-service:${CUSTOMERS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-customers-service/target --build-arg ARTIFACT_NAME=customers-service-3.4.1 --build-arg  EXPOSED_PORT=8080
-    az acr build -t spring-petclinic-api-gateway:${API_GATEWAY_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-api-gateway/target --build-arg ARTIFACT_NAME=api-gateway-3.4.1 --build-arg  EXPOSED_PORT=8080
+    az acr build -t spring-petclinic-vets-service:${VETS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-vets-service/target/docker --build-arg ARTIFACT_NAME=vets-service-3.4.1 --build-arg  EXPOSED_PORT=8080
+    az acr build -t spring-petclinic-visits-service:${VISITS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-visits-service/target/docker --build-arg ARTIFACT_NAME=visits-service-3.4.1 --build-arg  EXPOSED_PORT=8080
+    az acr build -t spring-petclinic-customers-service:${CUSTOMERS_SERVICE_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-customers-service/target/docker --build-arg ARTIFACT_NAME=customers-service-3.4.1 --build-arg  EXPOSED_PORT=8080
+    az acr build -t spring-petclinic-api-gateway:${API_GATEWAY_APP_IMAGE_TAG} -r ${ACR_NAME} spring-petclinic-api-gateway/target/docker --build-arg ARTIFACT_NAME=api-gateway-3.4.1 --build-arg  EXPOSED_PORT=8080
    ```
 ## Next Steps
 
