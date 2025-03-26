@@ -2,7 +2,7 @@ apiVersion: v1
 kind: List
 items:
 - apiVersion: v1
-  kind: ConfigMap 
+  kind: ConfigMap
   metadata:
     name: api-gateway
     namespace: default
@@ -43,7 +43,7 @@ items:
               fieldRef:
                 apiVersion: v1
                 fieldPath: metadata.name
-          - name: JAVA_OPTS
+          - name: JAVA_TOOL_OPTIONS
             value: -Deureka.client.service-url.defaultZone=$(SPRING_EUREKA_SERVICE_URL)
               -Dfile.encoding=UTF8 -DCONFIG_SERVER_URL=$(SPRING_CLOUD_CONFIG_URI) -Dspring.cloud.config.uri=$(SPRING_CLOUD_CONFIG_URI)
               -Dspring.cloud.config.fail-fast=$(SPRING_CLOUD_CONFIG_FAILFAST) -Dspring.config.import=optional:configserver:$(SPRING_CLOUD_CONFIG_URI)/
@@ -61,7 +61,7 @@ items:
               name: eureka-server-config
               optional: true
           - configMapRef:
-              name: catalog-config
+              name: api-gateway
           image: <acr-name>.azurecr.io/spring-petclinic-api-gateway:<api-gateway-app-image-tag>
           imagePullPolicy: Always
           livenessProbe:
